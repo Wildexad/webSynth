@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing</title>
+    </head>
+    <body>
+        <h1>Fuck my life</h1>
+        
+        <nav>
+            <button id="note-btn">Одна нота</button>
+            <button id="play-btn">Проиграть композицию</button>
+            <button id="clear-btn">Очистить композицию</button>
+            <button id="backspace-btn">Убрать последнюю ноту</button>
+        </nav>
+
+        <div>
+            <h1>Четвертая октава</h1>
+            <button id="note-C">(С) До</button>
+            <button id="note-C#">(C#) До диез</button>
+            <button id="note-D">(D) Рэ</button>
+            <button id="note-D#">(D#) Рэ диез</button>
+            <button id="note-E">(E) Ми</button>
+            <button id="note-F">(F) Фа</button>
+            <button id="note-F#">(F#) Фа диез</button>
+            <button id="note-G">(G) Соль</button>
+            <button id="note-G#">(G#) Соль диез</button>
+            <button id="note-A">(A) Ля</button>
+            <button id="note-A#">(A#) Ля диез</button>
+            <button id="note-B">(B) Си</button>
+        </div>
+
+        <div id="currentNotes">
+            
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+        <script>
+            const currentNotesDiv = document.getElementById("currentNotes");
+
+            const noteButton = document.getElementById("note-btn");  // Референс к кнопке
+            const playButton = document.getElementById("play-btn");
+            const clearButton = document.getElementById("clear-btn");
+            const backspaceButton = document.getElementById("backspace-btn");
+
+
+            // Кнопки нот
+            const buttonNoteC = document.getElementById("note-C");
+            const buttonNoteCsharp = document.getElementById("note-C#");
+            const buttonNoteD = document.getElementById("note-D");
+            const buttonNoteDsharp = document.getElementById("note-D#");
+            const buttonNoteE = document.getElementById("note-E");
+            const buttonNoteF = document.getElementById("note-F");
+            const buttonNoteFsharp = document.getElementById("note-F#");
+            const buttonNoteG = document.getElementById("note-G");
+            const buttonNoteGsharp = document.getElementById("note-G#");
+            const buttonNoteA = document.getElementById("note-A");
+            const buttonNoteAsharp = document.getElementById("note-A#");
+            const buttonNoteB = document.getElementById("note-B");
+
+
+            const synth = new Tone.Synth().toDestination();  // Создаем синтезатор (toDestination чтобы звук играл из выхода)
+            
+            var notes = [
+                    { pitch: "E4", timing: 0, duration: "4n" },
+                    { pitch: "D#4", timing: 0.4, duration: "4n" },
+                    { pitch: "E4", timing: 0.4, duration: "4n" },
+                    { pitch: "D#4", timing: 0.4, duration: "4n" },
+                    { pitch: "E4", timing: 0.4, duration: "4n" },
+                    { pitch: "B3", timing: 0.4, duration: "4n" },
+                    { pitch: "D4", timing: 0.4, duration: "4n" },
+                    { pitch: "C4", timing: 0.4, duration: "4n" },
+                    { pitch: "A3", timing: 0.4, duration: "2n" }
+                ];
+
+            noteButton.addEventListener("click", () => {  // Функция для клика кнопки
+                if (Tone.context.state != "running")
+                {
+                    Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
+                }
+
+                synth.triggerAttackRelease("E4", "8n");  // Играем ноту Рэ в 4 октаве с длительностью 1/8
+            });
+
+            clearButton.addEventListener("click", () => {
+                notes = [];
+                notes.forEach(element => {
+                    console.log(element);
+                });
+            });
+
+            backspaceButton.addEventListener("click", () => {
+                notes.pop();
+            });
+
+            // note buttons
+            buttonNoteC.addEventListener("click", () => {
+                notes.push({ pitch: "C4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteCsharp.addEventListener("click", () => {
+                notes.push({ pitch: "C#4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteD.addEventListener("click", () => {
+                notes.push({ pitch: "D4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteDsharp.addEventListener("click", () => {
+                notes.push({ pitch: "D#4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteE.addEventListener("click", () => {
+                notes.push({ pitch: "E4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteF.addEventListener("click", () => {
+                notes.push({ pitch: "F4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteFsharp.addEventListener("click", () => {
+                notes.push({ pitch: "F#4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteG.addEventListener("click", () => {
+                notes.push({ pitch: "G4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteGsharp.addEventListener("click", () => {
+                notes.push({ pitch: "G#4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteA.addEventListener("click", () => {
+                notes.push({ pitch: "A4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteAsharp.addEventListener("click", () => {
+                notes.push({ pitch: "A#4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+            buttonNoteB.addEventListener("click", () => {
+                notes.push({ pitch: "B4", timing: 0.4, duration: "4n" });
+                synth.triggerAttackRelease(notes.slice(-1)[0].pitch, notes.slice(-1)[0].duration);  
+
+            });
+
+            playButton.addEventListener("click", () => {  // Функция для клика кнопки
+                if (Tone.context.state != "running")
+                {
+                    Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
+                }
+
+                function play() {
+                    let delay = Tone.now();
+                    for(let i = 0; i < notes.length; i++) {
+                        delay += notes[i].timing;
+                        synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, delay);  
+                    }
+                }
+
+                play()
+            });
+
+            console.log(Tone.context.state);  // Вывод статуса для тестирования
+        </script>
+    </body>
+</html>    
