@@ -4,11 +4,20 @@ import * as Tone from "tone";
 
 import "../styles/main.css";
 
-var notes = [];
+const synth = new Tone.Synth().toDestination();  // Создается синтезатор (В будущем будет выбираться извне)
 
-function Square({ pitch }) {
+function playNote({pitch}) {
+    if (Tone.context.state !== "running")
+        {
+            Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
+        }
+
+        synth.triggerAttackRelease(pitch, "8n");  // Проигрывание звука
+}
+
+function Square({ props }) {
     const [value, setValue] = useState(null);
-    
+
     function handleClick() {
         if (value !== 'X')
         {
@@ -19,14 +28,7 @@ function Square({ pitch }) {
             setValue('');
         }
         
-        const synth = new Tone.Synth().toDestination();  // Создается синтезатор (В будущем будет выбираться извне)
-
-        if (Tone.context.state !== "running")
-        {
-            Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
-        }
-
-        synth.triggerAttackRelease(pitch, "8n");  // Проигрывание звука
+        playNote(props.pitch);
     }
   
     return <button className="square" onClick={handleClick}>{value}</button>;
@@ -34,35 +36,35 @@ function Square({ pitch }) {
   
 
 
-export default function Timeline() {
+export default function Timeline(props) {
+    const [notes, setNotes] = useState(props.notes);
+
     return (
         <>
             <div className="board-row">
                 <h1>C3</h1>
-                <Square pitch="C3" />
-                <Square pitch="C3" />
-                <Square pitch="C3" />
-                <Square pitch="C3" />
-                <Square pitch="C3" />
+                <Square pitch="C3" id='1' />
+                <Square pitch="C3" id='2' />
+                <Square pitch="C3" id='3' />
+                <Square pitch="C3" id='4' />
+                <Square pitch="C3" id='5' />
             </div>
             <div className="board-row">
                 <h1>C#3</h1>
-                <Square pitch="C#3" />
-                <Square pitch="C#3" />
-                <Square pitch="C#3" />
-                <Square pitch="C#3" />
-                <Square pitch="C#3" />
+                <Square pitch="C#3" id='1' />
+                <Square pitch="C#3" id='2' />
+                <Square pitch="C#3" id='3' />
+                <Square pitch="C#3" id='4' />
+                <Square pitch="C#3" id='5' />
             </div>
             <div className="board-row">
                 <h1>D3</h1>
-                <Square pitch="D3" />
-                <Square pitch="D3" />
-                <Square pitch="D3" />
-                <Square pitch="D3" />
-                <Square pitch="D3" />
+                <Square pitch="D3" id='1' />
+                <Square pitch="D3" id='2' />
+                <Square pitch="D3" id='3' />
+                <Square pitch="D3" id='4' />
+                <Square pitch="D3" id='5' />
             </div>
-
-            <button>Проиграть песню</button>
         </>
     );
 }
