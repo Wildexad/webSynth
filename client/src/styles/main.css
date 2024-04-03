@@ -1,3 +1,15 @@
+body {
+    background-color: #CCDBDC;
+    margin: 0;
+}
+
+header {
+    background-color: #9AD1D4;
+    margin-bottom: 20px;
+    padding: 30px;
+    font-size: 32px;
+}
+
 button {
     width: 40px;
     height: 40px;
@@ -7,4 +19,9 @@ button {
 
 h1 {
     display: inline;
+}
+
+div .timeline {
+    margin: 20px;
+    background-color: #FFFFFF;
 }

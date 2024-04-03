@@ -35,8 +35,11 @@ function playSong() {
 export default function App() {
   return (
     <>
-      <Timeline notes={notes} />
-      <PlayButton playSong={playSong} />
+      <header>webSynth</header>
+      <div className="timeline">
+        <Timeline notes={notes} />
+        <PlayButton playSong={playSong} />
+      </div>
     </>
 
   );
