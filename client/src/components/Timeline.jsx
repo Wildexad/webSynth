@@ -6,16 +6,8 @@ import "../styles/main.css";
 
 const synth = new Tone.Synth().toDestination();  // Создается синтезатор (В будущем будет выбираться извне)
 
-function playNote({pitch}) {
-    if (Tone.context.state !== "running")
-        {
-            Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
-        }
 
-        synth.triggerAttackRelease(pitch, "8n");  // Проигрывание звука
-}
-
-function Square({ props }) {
+function Square(props) {
     const [value, setValue] = useState(null);
 
     function handleClick() {
@@ -28,7 +20,12 @@ function Square({ props }) {
             setValue('');
         }
         
-        playNote(props.pitch);
+        if (Tone.context.state !== "running")
+        {
+            Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
+        }
+
+        synth.triggerAttackRelease(props.pitch, "8n");  // Проигрывание звука
     }
   
     return <button className="square" onClick={handleClick}>{value}</button>;

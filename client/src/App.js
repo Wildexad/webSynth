@@ -2,6 +2,7 @@ import React from "react";
 
 import Timeline from "./components/Timeline"
 import PlayButton from "./components/PlayButton";
+import ResetButton from "./components/ResetButton";
 
 import * as Tone from "tone";
 
@@ -20,7 +21,7 @@ var notes = [
 ]
 
 function playSong() {
-  if (Tone.context.state != "running")
+  if (Tone.context.state !== "running")
   {
       Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
   }
@@ -28,8 +29,14 @@ function playSong() {
   let delay = Tone.now();
   for(let i = 0; i < notes.length; i++) {
       delay += notes[i].timing;
-      synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, delay);  
+      synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, delay);
   }
+  
+  console.log(notes);
+}
+
+function resetSong() {
+  notes = [];
 }
 
 export default function App() {
@@ -39,6 +46,7 @@ export default function App() {
       <div className="timeline">
         <Timeline notes={notes} />
         <PlayButton playSong={playSong} />
+        <ResetButton resetSong={resetSong} />
       </div>
     </>
 
