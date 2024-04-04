@@ -1,0 +1,5 @@
+﻿DB_HOST     = "localhost"
+DB_NAME     = "webSynth"
+DB_USER     = "postgres"
+DB_PASSWORD = "userpassword"
+JWT_SIGN    = "webSynth"

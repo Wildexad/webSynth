@@ -1,0 +1,56 @@
+1. Создать базу webSynth, выполнить webSynth.sql.
+2. Создать .env, скопировать туда из env_copy и ввести свой логин пароль к базе, указанный при создании
+3. Запустить npm i
+4. Запустить npm run dev
+
+*********************** END POINTS ***************************
+
+Users
+----------------------------------------------------------------
+
+Get all users
+[GET] http://localhost:8000/api/user/list
+
+Login: {login: string, password: string}
+[POST] http://localhost:8000/api/user/login
+
+Refresh token (every 25 min): {uuid: string}   (required bearer token)
+[POST] http://localhost:8000/api/user/refresh-token
+
+Logout    (required bearer token)
+[GET] http://localhost:8000/api/user/logout
+
+Get info about user (required bearer token)
+[GET] http://localhost:8000/api/user/info'
+
+
+Instruments (required bearer token)
+----------------------------------------------------------------
+
+Get instruments list
+[GET] http://localhost:8000/api/instruments
+
+Add instrument: {instr_name: string, instr_info: json}
+[POST] http://localhost:8000/api/instruments
+
+Update instrument: {instr_id: number, instr_name: string, instr_info: json}
+[PUT] http://localhost:8000/api/instruments
+
+Delete instrument: {instr_id: number}
+[DELETE] http://localhost:8000/api/instruments
+
+
+Songs (required bearer token)
+----------------------------------------------------------------
+
+Get songs list
+[GET] http://localhost:8000/api/instruments
+
+Add song: {song_name: string, song_info: json}
+[POST] http://localhost:8000/api/instruments
+
+Update song: {song_id: number, song_name: string, song_info: json}
+[PUT] http://localhost:8000/api/instruments
+
+Delete song: {song_id: number}
+[DELETE] http://localhost:8000/api/instruments
