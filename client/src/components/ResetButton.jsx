@@ -1,7 +1,9 @@
 import React from "react";
 
-export default function ResetButton (props) {
+const ResetButton = (props) => {
     return (
         <button onClick={props.resetSong}>Сбросить песню</button>
     );
 }
+
+export default ResetButton;

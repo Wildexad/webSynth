@@ -1,0 +1,42 @@
+.timeline_container {
+    height: 160px;
+    display: flex;
+    margin: 20px;
+    background-color: #fff;
+}
+
+.timeline_note_cell {
+    display: flex;
+    flex: 1 1 0%;
+    margin: 2px;
+    background-color: cornsilk;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline_column {
+
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+}
+
+.timeline_cell {
+    flex: 1 1 0%;
+    margin: 2px;
+    background-color: lightgrey;
+    transition: background-color 0.2s ease-in-out;
+    transition: box-shadow 0.2s ease-in-out;
+    border: none;
+}
+
+.timeline_cell:hover {
+    background-color: rgb(255, 186, 37);
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+}
+
+.timeline_cell_picked {
+    background-color: grey;
+    border: 1px solid black;
+    border: medium;
+}

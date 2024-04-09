@@ -2,66 +2,49 @@ import React from "react";
 import { useState } from "react";
 import * as Tone from "tone";
 
-import "../styles/main.css";
+import "../styles/Timeline.css";
+
+import TimelineColumn from "./TimelineColumn";
 
 const synth = new Tone.Synth().toDestination();  // Создается синтезатор (В будущем будет выбираться извне)
 
+const Timeline = () => {
+    const [notes, setNotes] = useState(['C4', 'C#4', 'D4', 'D#4']); // Состояние списка нот на таймлайне
+    const [columnNumber, setColumnNumber] = useState(16); // Состояние, определяющее количество столбцов на таймлайне
+    const [rowNumber, setRowNumber] = useState(notes.length); // Состояние, определяющее количество строк на таймлайне
+    const columnArray = Array(rowNumber).fill(false); // Заполняем столбцы
+    const columns = Array(columnNumber).fill().map(() => Array(rowNumber).fill(false)); // Заполняем строки
+    const [cellValues, setCellValues] = useState(columns); // Состояние ячеек таймлайна
 
-function Square(props) {
-    const [value, setValue] = useState(null);
-
-    function handleClick() {
-        if (value !== 'X')
-        {
-            setValue('X');
-        }
-        else 
-        {
-            setValue('');
-        }
-        
-        if (Tone.context.state !== "running")
-        {
+    const handleClick = (column, row) => {
+        setCellValues(prevCellValues => {
+            const newCellValues = [...prevCellValues];
+            newCellValues[column][row] = !newCellValues[column][row];
+            return newCellValues;
+        });
+        if (Tone.context.state !== "running") {
             Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
         }
-
-        synth.triggerAttackRelease(props.pitch, "8n");  // Проигрывание звука
+        synth.triggerAttackRelease(notes[row], "8n");  // Проигрывание звука
     }
-  
-    return <button className="square" onClick={handleClick}>{value}</button>;
-}
-  
-
-
-export default function Timeline(props) {
-    const [notes, setNotes] = useState(props.notes);
 
     return (
-        <>
-            <div className="board-row">
-                <h1>C3</h1>
-                <Square pitch="C3" id='1' />
-                <Square pitch="C3" id='2' />
-                <Square pitch="C3" id='3' />
-                <Square pitch="C3" id='4' />
-                <Square pitch="C3" id='5' />
+        <div className="timeline_container">
+            <div className="timeline_column">
+                {notes.map((note, index) =>
+                    <div className="timeline_note_cell" key={index}>{note}</div>
+                )}
             </div>
-            <div className="board-row">
-                <h1>C#3</h1>
-                <Square pitch="C#3" id='1' />
-                <Square pitch="C#3" id='2' />
-                <Square pitch="C#3" id='3' />
-                <Square pitch="C#3" id='4' />
-                <Square pitch="C#3" id='5' />
-            </div>
-            <div className="board-row">
-                <h1>D3</h1>
-                <Square pitch="D3" id='1' />
-                <Square pitch="D3" id='2' />
-                <Square pitch="D3" id='3' />
-                <Square pitch="D3" id='4' />
-                <Square pitch="D3" id='5' />
-            </div>
-        </>
+            {cellValues.map((column, columnIndex) => (
+                <TimelineColumn
+                    key={columnIndex}
+                    column={column}
+                    columnIndex={columnIndex}
+                    onCellClick={handleClick}
+                />
+            ))}
+        </div>
     );
 }
+
+export default Timeline;
