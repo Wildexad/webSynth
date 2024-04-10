@@ -2,6 +2,7 @@ import React from 'react';
 
 import Cell from "./Cell";
 
+// Компонент столбца таймлайна
 const TimelineColumn = ({column, columnIndex, onCellClick}) => {
     return (
         <div className="timeline_column">

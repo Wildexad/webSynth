@@ -8,12 +8,28 @@ import TimelineColumn from "./TimelineColumn";
 
 const synth = new Tone.Synth().toDestination();  // Создается синтезатор (В будущем будет выбираться извне)
 
-const Timeline = () => {
-    const [notes, setNotes] = useState(['C4', 'C#4', 'D4', 'D#4']); // Состояние списка нот на таймлайне
+/* использование сиквенсов tone.js
+const synth = new Tone.Synth().toDestination();
+const seq = new Tone.Sequence((time, note) => {
+    synth.triggerAttackRelease(note, 0.1, time);
+}, ['C4', ['E4', 'D4', 'E4'], 'G4', ['A4', 'G4']]).start(0);
+Tone.Transport.start();
+*/
+
+/* использование лупов tone.js
+const synthA = new Tone.FMSynth().toDestination();
+const loopA = new Tone.Loop(time => {
+	synthA.triggerAttackRelease("C2", "8n", time);
+}, "4n").start(0);
+Tone.Transport.start()
+*/
+
+// Компонент Таймлайна
+const Timeline = (props) => {
+    const [notes, setNotes] = useState(['B2', 'C3', 'C#3', 'D3', 'D#3', 'E3']); // Состояние списка нот на таймлайне
     const [columnNumber, setColumnNumber] = useState(16); // Состояние, определяющее количество столбцов на таймлайне
     const [rowNumber, setRowNumber] = useState(notes.length); // Состояние, определяющее количество строк на таймлайне
-    const columnArray = Array(rowNumber).fill(false); // Заполняем столбцы
-    const columns = Array(columnNumber).fill().map(() => Array(rowNumber).fill(false)); // Заполняем строки
+    const columns = Array(columnNumber).fill().map(() => Array(rowNumber).fill(false)); // Заполнение массива ячеек значениями
     const [cellValues, setCellValues] = useState(columns); // Состояние ячеек таймлайна
 
     const handleClick = (column, row) => {

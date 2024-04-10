@@ -2,6 +2,7 @@ import React from 'react';
 
 import "../styles/Timeline.css";
 
+// Компонент ячейки таймлайна
 const Cell = (props) => {
 
     return <button

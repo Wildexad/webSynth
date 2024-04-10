@@ -1,33 +1,39 @@
+/*
+Стили компонента Timeline
+*/
 .timeline_container {
-    height: 160px;
-    display: flex;
-    margin: 20px;
     background-color: #fff;
+    display: flex;
+    min-height: 10vh;
+    margin: 20px;
 }
 
 .timeline_note_cell {
+    background-color: cornsilk;
     display: flex;
     flex: 1 1 0%;
-    margin: 2px;
-    background-color: cornsilk;
     align-items: center;
     justify-content: center;
+    margin: 2px;
 }
 
 .timeline_column {
-
     display: flex;
     flex: 1 1 0%;
     flex-direction: column;
 }
 
+
+/*
+Стили компонента Cell
+*/
 .timeline_cell {
-    flex: 1 1 0%;
-    margin: 2px;
     background-color: lightgrey;
+    flex: 1 1 0%;
     transition: background-color 0.2s ease-in-out;
     transition: box-shadow 0.2s ease-in-out;
     border: none;
+    margin: 2px;
 }
 
 .timeline_cell:hover {
@@ -37,6 +43,24 @@
 
 .timeline_cell_picked {
     background-color: grey;
-    border: 1px solid black;
-    border: medium;
+}
+
+
+/*
+Стили компонента TimelineList
+*/
+.trackButton {
+    background-color: #688597;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.trackButton:hover {
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+}
+
+.trackButton_active {
+    background-color: #c2e8ff;
 }
