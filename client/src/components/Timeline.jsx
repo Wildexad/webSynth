@@ -25,29 +25,35 @@ Tone.Transport.start()
 */
 
 // Компонент Таймлайна
-const Timeline = (props) => {
-    const [notes, setNotes] = useState(['B2', 'C3', 'C#3', 'D3', 'D#3', 'E3']); // Состояние списка нот на таймлайне
+const Timeline = ({ addNote }) => {
+    const [octave, setOctave] = useState(['C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3']); // Состояние списка нот на таймлайне
     const [columnNumber, setColumnNumber] = useState(16); // Состояние, определяющее количество столбцов на таймлайне
-    const [rowNumber, setRowNumber] = useState(notes.length); // Состояние, определяющее количество строк на таймлайне
+    const [rowNumber, setRowNumber] = useState(octave.length); // Состояние, определяющее количество строк на таймлайне
     const columns = Array(columnNumber).fill().map(() => Array(rowNumber).fill(false)); // Заполнение массива ячеек значениями
     const [cellValues, setCellValues] = useState(columns); // Состояние ячеек таймлайна
 
     const handleClick = (column, row) => {
+        // Обновление ячеек таймлайна
         setCellValues(prevCellValues => {
             const newCellValues = [...prevCellValues];
             newCellValues[column][row] = !newCellValues[column][row];
             return newCellValues;
         });
+
+        // Однократное проигрывание выбранной ноты
         if (Tone.context.state !== "running") {
             Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
         }
-        synth.triggerAttackRelease(notes[row], "8n");  // Проигрывание звука
+        synth.triggerAttackRelease(octave[row], "16n");  // Проигрывание звука
+
+        // Добавление ноты в список нот (пока что вне зависимости от положения на таймлайне)
+        addNote({ pitch: octave[row], duration: "8n", timing: 0.4 });
     }
 
     return (
         <div className="timeline_container">
             <div className="timeline_column">
-                {notes.map((note, index) =>
+                {octave.map((note, index) =>
                     <div className="timeline_note_cell" key={index}>{note}</div>
                 )}
             </div>

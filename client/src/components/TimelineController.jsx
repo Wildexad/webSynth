@@ -15,6 +15,17 @@ const TimelineController = () => {
     const [timelines, setTimelines] = useState([{cellValues: [], id: 0}]); // Состояние списка существующих таймлайнов
     const [activeTimeline, setActiveTimeline] = useState(timelines[0]); // Состояние активного таймлайна
     const [controlButtons, setControlButtons] = useState([]);
+    const [notes, setNotes] = useState([
+        { pitch: "E4", duration: "4n", timing: 0 },
+        { pitch: "D#4", duration: "4n", timing: 0.4 },
+        { pitch: "E4", duration: "4n", timing: 0.4 },
+        { pitch: "D#4", duration: "4n", timing: 0.4 },
+        { pitch: "E4", duration: "4n", timing: 0.4 },
+        { pitch: "B3", duration: "4n", timing: 0.4 },
+        { pitch: "D4", duration: "4n", timing: 0.4 },
+        { pitch: "C4", duration: "4n", timing: 0.4 },
+        { pitch: "A3", duration: "2n", timing: 0.4 }
+    ]);
 
     // Функция изменения текущего таймлайна
     const changeTimeline = (timeline) => {
@@ -32,18 +43,6 @@ const TimelineController = () => {
       setTimelines(timelines.filter(t => t.id !== timeline.id))
     }
 
-    var notes = [
-        { pitch: "E4", duration: "4n", timing: 0 },
-        { pitch: "D#4", duration: "4n", timing: 0.4 },
-        { pitch: "E4", duration: "4n", timing: 0.4 },
-        { pitch: "D#4", duration: "4n", timing: 0.4 },
-        { pitch: "E4", duration: "4n", timing: 0.4 },
-        { pitch: "B3", duration: "4n", timing: 0.4 },
-        { pitch: "D4", duration: "4n", timing: 0.4 },
-        { pitch: "C4", duration: "4n", timing: 0.4 },
-        { pitch: "A3", duration: "2n", timing: 0.4 }
-    ]
-
     const playSong = () => {
         if (Tone.context.state !== "running") {
             Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
@@ -57,7 +56,12 @@ const TimelineController = () => {
     }
 
     const resetSong = () => {
-        notes = [];
+        setNotes([]);
+    }
+
+    const addNote = (newNote) => {
+        setNotes([...notes, newNote]);
+        console.log(notes);
     }
 
     return (
@@ -70,7 +74,7 @@ const TimelineController = () => {
                 timeline={activeTimeline.id}
                 changeTimeline={changeTimeline}
             />
-            <Timeline />
+            <Timeline addNote={addNote} />
             <div className="timeline_buttons">
                 <ControlButton handleClick={playSong}>
                     Play
