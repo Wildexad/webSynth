@@ -16,15 +16,15 @@ const TimelineController = () => {
     const [activeTimeline, setActiveTimeline] = useState(timelines[0]); // Состояние активного таймлайна
     const [controlButtons, setControlButtons] = useState([]);
     const [notes, setNotes] = useState([
-        { pitch: "E4", duration: "4n", timing: 0 },
-        { pitch: "D#4", duration: "4n", timing: 0.4 },
-        { pitch: "E4", duration: "4n", timing: 0.4 },
-        { pitch: "D#4", duration: "4n", timing: 0.4 },
-        { pitch: "E4", duration: "4n", timing: 0.4 },
-        { pitch: "B3", duration: "4n", timing: 0.4 },
-        { pitch: "D4", duration: "4n", timing: 0.4 },
-        { pitch: "C4", duration: "4n", timing: 0.4 },
-        { pitch: "A3", duration: "2n", timing: 0.4 }
+        // { pitch: "E4", duration: "4n", timing: 0 },
+        // { pitch: "D#4", duration: "4n", timing: 0.4 },
+        // { pitch: "E4", duration: "4n", timing: 0.4 },
+        // { pitch: "D#4", duration: "4n", timing: 0.4 },
+        // { pitch: "E4", duration: "4n", timing: 0.4 },
+        // { pitch: "B3", duration: "4n", timing: 0.4 },
+        // { pitch: "D4", duration: "4n", timing: 0.4 },
+        // { pitch: "C4", duration: "4n", timing: 0.4 },
+        // { pitch: "A3", duration: "2n", timing: 0.4 }
     ]);
 
     // Функция изменения текущего таймлайна
@@ -50,6 +50,11 @@ const TimelineController = () => {
         let delay = Tone.now();
         for (let i = 0; i < notes.length; i++) {
             delay += notes[i].timing;
+
+            if (notes[i - 1])  // Добавление места между нотами
+            {
+                delay += (notes[i].order - 1 - notes[i - 1].order) * 0.4;
+            }
             synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, delay);
         }
         console.log(notes);
@@ -60,7 +65,9 @@ const TimelineController = () => {
     }
 
     const addNote = (newNote) => {
-        setNotes([...notes, newNote]);
+        const newNotes = [...notes, newNote];
+        newNotes.sort((a, b) => a.order.localeCompare(b.order));
+        setNotes(newNotes);
         console.log(notes);
     }
 

@@ -44,10 +44,13 @@ const Timeline = ({ addNote }) => {
         if (Tone.context.state !== "running") {
             Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
         }
-        synth.triggerAttackRelease(octave[row], "16n");  // Проигрывание звука
+        synth.triggerAttackRelease(octave[row], "64n");  // Проигрывание звука
 
         // Добавление ноты в список нот (пока что вне зависимости от положения на таймлайне)
-        addNote({ pitch: octave[row], duration: "8n", timing: 0.4 });
+        if (cellValues[column][row] == false)
+        {
+            addNote({ pitch: octave[row], duration: "8n", timing: 0.4, order: column.toString() });
+        }
     }
 
     return (
