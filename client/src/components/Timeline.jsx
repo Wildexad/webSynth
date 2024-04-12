@@ -25,7 +25,7 @@ Tone.Transport.start()
 */
 
 // Компонент Таймлайна
-const Timeline = ({ addNote }) => {
+const Timeline = ({ addNote, removeNote }) => {
     const [octave, setOctave] = useState(['C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3']); // Состояние списка нот на таймлайне
     const [columnNumber, setColumnNumber] = useState(16); // Состояние, определяющее количество столбцов на таймлайне
     const [rowNumber, setRowNumber] = useState(octave.length); // Состояние, определяющее количество строк на таймлайне
@@ -33,6 +33,21 @@ const Timeline = ({ addNote }) => {
     const [cellValues, setCellValues] = useState(columns); // Состояние ячеек таймлайна
 
     const handleClick = (column, row) => {
+        let note = { pitch: octave[row], duration: "8n", timing: 0.4, order: column };
+
+        // Добавление ноты в список нот, если она не активна
+        if (cellValues[column][row] == false)
+        {
+            addNote(note);
+        }
+        
+        // Иначе удаляем
+        else
+        {
+            removeNote(note)
+            console.log(`note ${note.pitch} removed`);
+        }
+        
         // Обновление ячеек таймлайна
         setCellValues(prevCellValues => {
             const newCellValues = [...prevCellValues];
@@ -46,11 +61,6 @@ const Timeline = ({ addNote }) => {
         }
         synth.triggerAttackRelease(octave[row], "64n");  // Проигрывание звука
 
-        // Добавление ноты в список нот (пока что вне зависимости от положения на таймлайне)
-        if (cellValues[column][row] == false)
-        {
-            addNote({ pitch: octave[row], duration: "8n", timing: 0.4, order: column.toString() });
-        }
     }
 
     return (

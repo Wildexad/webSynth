@@ -43,22 +43,22 @@ const TimelineController = () => {
       setTimelines(timelines.filter(t => t.id !== timeline.id))
     }
 
-    const playSongOld = () => {
-        if (Tone.context.state !== "running") {
-            Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
-        }
-        let delay = Tone.now();
-        for (let i = 0; i < notes.length; i++) {
-            delay += notes[i].timing;
+    // const playSongOld = () => {
+    //     if (Tone.context.state !== "running") {
+    //         Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
+    //     }
+    //     let delay = Tone.now();
+    //     for (let i = 0; i < notes.length; i++) {
+    //         delay += notes[i].timing;
 
-            if (notes[i - 1])  // Добавление места между нотами
-            {
-                delay += (notes[i].order - 1 - notes[i - 1].order) * 0.4;
-            }
-            synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, Tone.now() + delay);
-        }
-        console.log(notes.map(x => x.pitch));
-    }
+    //         if (notes[i - 1])  // Добавление места между нотами
+    //         {
+    //             delay += (notes[i].order - 1 - notes[i - 1].order) * 0.4;
+    //         }
+    //         synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, Tone.now() + delay);
+    //     }
+    //     console.log(notes.map(x => x.pitch));
+    // }
 
     const playSong = () => {
         let delay = 0;
@@ -89,6 +89,11 @@ const TimelineController = () => {
         console.log(notes);
     }
 
+    const removeNote = (noteToRemove) => {
+        const newNotes = notes.filter(x => x.order !== noteToRemove.order);
+        setNotes(newNotes);
+    }
+
     return (
         <div className="timeline">
             <ControlButton>
@@ -99,7 +104,9 @@ const TimelineController = () => {
                 timeline={activeTimeline.id}
                 changeTimeline={changeTimeline}
             />
-            <Timeline addNote={addNote} />
+
+            <Timeline addNote={addNote} removeNote={removeNote} />
+
             <div className="timeline_buttons">
                 <ControlButton handleClick={playSong}>
                     Play
