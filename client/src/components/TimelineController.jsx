@@ -86,7 +86,7 @@ const TimelineController = () => {
         const newNotes = [...notes, newNote];
         newNotes.sort((a, b) => {return a.order - b.order});
         setNotes(newNotes);
-        console.log(notes);
+        console.log(`note ${newNote.pitch} added`);
     }
 
     const removeNote = (noteToRemove) => {
