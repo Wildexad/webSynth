@@ -63,11 +63,19 @@ const TimelineController = () => {
     const playSong = () => {
         let delay = 0;
 
-        notes.forEach(x => {
+        for (let i = 0; i < notes.length; i++) {
             const now = Tone.now();
-            synth.triggerAttackRelease(x.pitch, x.duration, now + delay);
-            delay += x.timing;
-        })
+            
+            // Добавление места между нотами
+            if (notes[i - 1])
+            {
+                delay += (notes[i].order - 1 - notes[i - 1].order) * 0.4;
+            }
+
+            synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, now + delay);
+            
+            delay += notes[i].timing;
+        }
     }
 
     const resetSong = () => {
@@ -76,7 +84,7 @@ const TimelineController = () => {
 
     const addNote = (newNote) => {
         const newNotes = [...notes, newNote];
-        newNotes.sort((a, b) => a.order.localeCompare(b.order));
+        newNotes.sort((a, b) => {return a.order - b.order});
         setNotes(newNotes);
         console.log(notes);
     }
