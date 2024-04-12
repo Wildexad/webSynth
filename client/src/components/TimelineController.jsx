@@ -8,7 +8,7 @@ import Timeline from "./Timeline";
 import ControlButton from './ControlButton';
 import TimelineList from './TimelineList';
 
-const synth = new Tone.Synth().toDestination(); // Создается синтезатор (В будущем будет выбираться извне)
+const synth = new Tone.PolySynth().toDestination(); // Создается синтезатор (В будущем будет выбираться извне)
 
 // Компонент контроллера таймлайнов
 const TimelineController = () => {
