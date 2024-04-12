@@ -43,7 +43,7 @@ const TimelineController = () => {
       setTimelines(timelines.filter(t => t.id !== timeline.id))
     }
 
-    const playSong = () => {
+    const playSongOld = () => {
         if (Tone.context.state !== "running") {
             Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
         }
@@ -55,9 +55,19 @@ const TimelineController = () => {
             {
                 delay += (notes[i].order - 1 - notes[i - 1].order) * 0.4;
             }
-            synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, delay);
+            synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, Tone.now() + delay);
         }
-        console.log(notes);
+        console.log(notes.map(x => x.pitch));
+    }
+
+    const playSong = () => {
+        let delay = 0;
+
+        notes.forEach(x => {
+            const now = Tone.now();
+            synth.triggerAttackRelease(x.pitch, x.duration, now + delay);
+            delay += x.timing;
+        })
     }
 
     const resetSong = () => {
