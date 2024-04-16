@@ -16,17 +16,9 @@ const TimelineController = () => {
     const [timelines, setTimelines] = useState([{cellValues: [], id: 0}]); // Состояние списка существующих таймлайнов
     const [activeTimeline, setActiveTimeline] = useState(timelines[0]); // Состояние активного таймлайна
     const [controlButtons, setControlButtons] = useState([]);
-    const [notes, setNotes] = useState([
-        // { pitch: "E4", duration: "4n", timing: 0 },
-        // { pitch: "D#4", duration: "4n", timing: 0.4 },
-        // { pitch: "E4", duration: "4n", timing: 0.4 },
-        // { pitch: "D#4", duration: "4n", timing: 0.4 },
-        // { pitch: "E4", duration: "4n", timing: 0.4 },
-        // { pitch: "B3", duration: "4n", timing: 0.4 },
-        // { pitch: "D4", duration: "4n", timing: 0.4 },
-        // { pitch: "C4", duration: "4n", timing: 0.4 },
-        // { pitch: "A3", duration: "2n", timing: 0.4 }
-    ]);
+    const [notes, setNotes] = useState([]);
+    const [cellValues, setCellValues] = useState([]);
+    const [savedSong, setSavedSong] = useState([]);
 
     // Функция изменения текущего таймлайна
     const changeTimeline = (timeline) => {
@@ -43,23 +35,6 @@ const TimelineController = () => {
     const removeTimeline = (timeline) => {
       setTimelines(timelines.filter(t => t.id !== timeline.id))
     }
-
-    // const playSongOld = () => {
-    //     if (Tone.context.state !== "running") {
-    //         Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
-    //     }
-    //     let delay = Tone.now();
-    //     for (let i = 0; i < notes.length; i++) {
-    //         delay += notes[i].timing;
-
-    //         if (notes[i - 1])  // Добавление места между нотами
-    //         {
-    //             delay += (notes[i].order - 1 - notes[i - 1].order) * 0.4;
-    //         }
-    //         synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, Tone.now() + delay);
-    //     }
-    //     console.log(notes.map(x => x.pitch));
-    // }
 
     const playSong = () => {
         let delay = 0;
@@ -90,6 +65,26 @@ const TimelineController = () => {
         console.log(`note ${newNote.pitch} added`);
     }
 
+    const saveSong = () => {
+        var songToSave = {
+            author: "Vasya Pupkin",
+            notes: notes,
+            cells: cellValues
+        };
+
+        setSavedSong(songToSave);
+        console.log(savedSong);
+    }
+
+    const loadSong = () => {
+        setNotes(savedSong.notes);
+        setCellValues(savedSong.cells);
+    }
+
+    const updateCellValues = (values) => {
+        setCellValues(values);
+    }
+
     const removeNote = (noteToRemove) => {
         // Убираем из списка нужную ноту по столбцу и колонке
         const newNotes = notes.filter(x => {
@@ -115,7 +110,7 @@ const TimelineController = () => {
                 changeTimeline={changeTimeline}
             />
 
-            <Timeline addNote={addNote} removeNote={removeNote} />
+            <Timeline addNote={addNote} removeNote={removeNote} updateCellValues={updateCellValues} />
 
             <div className="timeline_buttons">
                 <ControlButton handleClick={playSong}>
@@ -123,6 +118,12 @@ const TimelineController = () => {
                 </ControlButton>
                 <ControlButton handleClick={resetSong}>
                     Reset
+                </ControlButton>
+                <ControlButton handleClick={saveSong}>
+                    Save
+                </ControlButton>
+                <ControlButton handleClick={loadSong}>
+                    Load
                 </ControlButton>
             </div>
         </div>

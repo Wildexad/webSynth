@@ -25,7 +25,7 @@ Tone.Transport.start()
 */
 
 // Компонент Таймлайна
-const Timeline = ({ addNote, removeNote }) => {
+const Timeline = ({ addNote, removeNote, updateCellValues }) => {
     const [octave, setOctave] = useState(['C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3']); // Состояние списка нот на таймлайне
     const [columnNumber, setColumnNumber] = useState(16); // Состояние, определяющее количество столбцов на таймлайне
     const [rowNumber, setRowNumber] = useState(octave.length); // Состояние, определяющее количество строк на таймлайне
@@ -54,6 +54,8 @@ const Timeline = ({ addNote, removeNote }) => {
             newCellValues[column][row] = !newCellValues[column][row];
             return newCellValues;
         });
+
+        updateCellValues(cellValues);  // Обновление ячеек таймлайна в контроллере
 
         // Однократное проигрывание выбранной ноты
         if (Tone.context.state !== "running") {
