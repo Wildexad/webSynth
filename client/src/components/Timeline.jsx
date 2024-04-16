@@ -36,7 +36,7 @@ const Timeline = ({ addNote, removeNote }) => {
         let note = { pitch: octave[row], duration: "8n", timing: 0.4, order: column };
 
         // Добавление ноты в список нот, если она не активна
-        if (cellValues[column][row] == false)
+        if (cellValues[column][row] === false)
         {
             addNote(note);
         }
@@ -47,7 +47,7 @@ const Timeline = ({ addNote, removeNote }) => {
             removeNote(note)
             console.log(`note ${note.pitch} removed`);
         }
-        
+
         // Обновление ячеек таймлайна
         setCellValues(prevCellValues => {
             const newCellValues = [...prevCellValues];
