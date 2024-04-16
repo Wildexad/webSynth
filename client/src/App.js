@@ -8,12 +8,12 @@ import TimelineController from "./components/TimelineController";
 const App = () => {
 
   return (
-    <div className="app">
-      <header className="App-header">webSynth</header>
-      <main>
+    <>
+      <header className="app-header">webSynth</header>
+      <main className="app">
         <h2>Таймлайн</h2>
         <TimelineController />
-        <div className="settings">
+        <div className="synth-options">
           <h2>Инструменты</h2>
           <div className="instruments">
           </div>
@@ -22,7 +22,7 @@ const App = () => {
           </div>
         </div>
       </main>
-    </div>
+    </>
   );
 }
 

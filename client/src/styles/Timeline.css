@@ -5,7 +5,7 @@
     background-color: #fff;
     display: flex;
     min-height: 10vh;
-    margin: 20px;
+    margin: 0% 20px 20px 0px;
 }
 
 .timeline_note_cell {
@@ -15,6 +15,7 @@
     align-items: center;
     justify-content: center;
     margin: 2px;
+    
 }
 
 .timeline_column {
@@ -28,12 +29,12 @@
 Стили компонента Cell
 */
 .timeline_cell {
-    background-color: lightgrey;
+    background-color: #fff;
     flex: 1 1 0%;
     transition: background-color 0.2s ease-in-out;
     transition: box-shadow 0.2s ease-in-out;
     border: none;
-    margin: 2px;
+    border: solid 1px black;
 }
 
 .timeline_cell:hover {
@@ -50,7 +51,7 @@
 Стили компонента TimelineList
 */
 .trackButton {
-    background-color: #688597;
+    background-color: #DEDEDE;
     transition: background-color 0.2s ease-in-out;
     border: none;
     padding: 5px 10px;
@@ -62,5 +63,5 @@
 }
 
 .trackButton_active {
-    background-color: #c2e8ff;
+    background-color: #fff;
 }
