@@ -1,11 +1,27 @@
 /*
+Стили компонента TimelineController
+*/
+.timeline_controlButtons {
+    margin: 10px 0 10px 0;
+}
+
+.controlButton {
+    margin: 5px;
+}
+
+/*
 Стили компонента Timeline
 */
+.timeline {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .timeline_container {
     background-color: #fff;
     display: flex;
     min-height: 10vh;
-    margin: 0% 20px 20px 0px;
+    margin: 0% 0px 20px 0px;
 }
 
 .timeline_note_cell {
@@ -14,7 +30,7 @@
     flex: 1 1 0%;
     align-items: center;
     justify-content: center;
-    margin: 2px;
+    min-height: 22px;
     
 }
 
@@ -33,8 +49,8 @@
     flex: 1 1 0%;
     transition: background-color 0.2s ease-in-out;
     transition: box-shadow 0.2s ease-in-out;
-    border: none;
     border: solid 1px black;
+    min-height: 22px;
 }
 
 .timeline_cell:hover {
@@ -43,7 +59,7 @@
 }
 
 .timeline_cell_picked {
-    background-color: #00BFBF;
+    background-color: #00bfbf;
 }
 
 
@@ -51,7 +67,7 @@
 Стили компонента TimelineList
 */
 .trackButton {
-    background-color: #DEDEDE;
+    background-color: #dedede;
     transition: background-color 0.2s ease-in-out;
     border: none;
     padding: 5px 10px;

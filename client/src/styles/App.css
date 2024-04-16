@@ -1,19 +1,46 @@
-.app {
-  padding-left: 10px;
-}
-
+/*
+Стили компонента Header
+*/
 .app-header {
   background-color: #9ad1d4;
   min-height: 10vh;
   display: flex;
-  align-items: center;
   justify-content: left;
+  align-items: center;
   font-size: calc(10px + 2vmin);
-  margin-bottom: 20px;
-  padding-left: 3%;
+  padding-left: 2%;
 }
 
+/*
+Стили мейн контента
+*/
 .synth-options {
   display: flex;
   justify-content: space-between;
+}
+
+/*
+Стили компонента Loader
+*/
+.loaderBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 5px dashed #9ad1d4;
+  animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

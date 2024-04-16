@@ -2,18 +2,18 @@ import React from 'react';
 import ControlButton from './ControlButton';
 
 // Компонент списка кнопок существующих таймлайнов
-const TimelineList = ({totalTimelines, timeline, changeTimeline}) => {
-    let buttonsArray = getButtonsArray(totalTimelines);
+const TimelineList = ({timelines, activeId, changeTimeline}) => {
+    let buttonsArray = getButtonsArray(timelines);
 
     return (
         <div className="timelineList">
-            {buttonsArray.map(b =>
+            {buttonsArray.map(Timelineid =>
                 <ControlButton
-                    handleClick={() => changeTimeline(b)}
-                    key={b}
-                    className={timeline === b ? "trackButton trackButton_active" : "trackButton"}
+                    handleClick={() => changeTimeline(Timelineid)}
+                    key={Timelineid}
+                    className={activeId === Timelineid ? "trackButton trackButton_active" : "trackButton"}
                     >
-                        Timeline {b}
+                        Timeline {Timelineid}
                     </ControlButton>
                 )}
         </div>
@@ -21,10 +21,10 @@ const TimelineList = ({totalTimelines, timeline, changeTimeline}) => {
 };
 
 // Функция создания массива чисел от 1 до длины массива таймлайнов
-const getButtonsArray = (totalTimelines) => {
+const getButtonsArray = (timelines) => {
     let result = [];
-    for (let i = 0; i < totalTimelines; i++) {
-        result.push(i);
+    for (let i = 0; i < timelines.length; i++) {
+        result.push(timelines[i].id);
     }
     return result;
 }

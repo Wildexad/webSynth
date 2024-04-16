@@ -1,28 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter } from 'react-router-dom';
 
 import "./styles/main.css";
 import "./styles/App.css";
 
-import TimelineController from "./components/TimelineController";
+import { AuthContextProvider } from './AuthContext';
+import Header from "./components/Header";
+import AppRouter from "./AppRouter";
 
 const App = () => {
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('auth')) {
+      setIsAuth(true);
+    }
+  }, []);
+
 
   return (
-    <>
-      <header className="app-header">webSynth</header>
-      <main className="app">
-        <h2>Таймлайн</h2>
-        <TimelineController />
-        <div className="synth-options">
-          <h2>Инструменты</h2>
-          <div className="instruments">
-          </div>
-          <h2>Настройки синтезатора</h2>
-          <div className="synth_settings">
-          </div>
+    <AuthContextProvider isAuth={isAuth} setIsAuth={setIsAuth}>
+      <BrowserRouter>
+        <div className="app">
+          <Header />
+          <AppRouter />
         </div>
-      </main>
-    </>
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 }
 

@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import * as Tone from "tone";
 
 import "../styles/Timeline.css";
@@ -13,116 +12,175 @@ synth.toDestination();
 
 // Компонент контроллера таймлайнов
 const TimelineController = () => {
-    const [timelines, setTimelines] = useState([{cellValues: [], id: 0}]); // Состояние списка существующих таймлайнов
+    
+    // Настройки таймлайнов
+    const [octave, setOctave] = useState(['C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3']); // Состояние списка нот на таймлайне
+    const [rowNumber, setRowNumber] = useState(octave.length); // Состояние, определяющее количество строк на таймлайне
+    const [columnNumber, setColumnNumber] = useState(16); // Состояние, определяющее количество столбцов на таймлайне
+    
+    // Инициализация пустой сетки таймлайна
+    const cellsArray = Array(columnNumber).fill().map(() => Array(rowNumber).fill(false));
+    
+    // Таймлайны
+    const [timelines, setTimelines] = useState([{cells: cellsArray, id: Date.now()}]); // Состояние списка существующих таймлайнов
     const [activeTimeline, setActiveTimeline] = useState(timelines[0]); // Состояние активного таймлайна
-    const [controlButtons, setControlButtons] = useState([]);
-    const [notes, setNotes] = useState([]);
-    const [cellValues, setCellValues] = useState([]);
-    const [savedSong, setSavedSong] = useState([]);
+    
+    // Ноты и сохраненные композиции
+    const [notes, setNotes] = useState([]); // Состояния списка нот для проигрывания композиции
+    const [savedSong, setSavedSong] = useState([]); // Состояние сохраненной композиции
 
-    // Функция изменения текущего таймлайна
-    const changeTimeline = (timeline) => {
-        setActiveTimeline(timelines[timeline]);
-    }
+
 
     // Функция создания нового таймлайна
     const createTimeline = (newTimeline) => {
         setTimelines([...timelines, newTimeline]);
-        setControlButtons([...controlButtons, controlButtons.length]);
-    }
-  
-    // Функция удаления таймлайна по id
-    const removeTimeline = (timeline) => {
-      setTimelines(timelines.filter(t => t.id !== timeline.id))
     }
 
+    // Функция смены активного таймлайна
+    const changeTimeline = (timelineId) => {
+        for (let i = 0; i < timelines.length; i++) {
+            if (timelines[i].id === timelineId) {
+                setActiveTimeline(timelines[i]);
+            }
+        }
+    }
+
+    // Функция удаления активного таймлайна
+    const removeTimeline = () => {
+        if (timelines.length > 1) {
+            setTimelines(timelines.filter(t => t.id !== activeTimeline.id));
+            changeTimeline(timelines[0].id);
+        }
+        else {
+            changeTimeline(timelines[0].id);
+        }
+    }
+
+    // Функция проигрывания мелодии текущего таймлайна
     const playSong = () => {
         let delay = 0;
-
         for (let i = 0; i < notes.length; i++) {
             const now = Tone.now();
-            
             // Добавление места между нотами
-            if (notes[i - 1])
-            {
+            if (notes[i - 1]) {
                 delay += (notes[i].order - 1 - notes[i - 1].order) * 0.4;
             }
-
             synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, now + delay);
-            
             delay += notes[i].timing;
         }
     }
 
+    // Функция сброса сохраненной композиции
     const resetSong = () => {
         setNotes([]);
     }
 
+    // Функция добавления ноты в композицию
     const addNote = (newNote) => {
         const newNotes = [...notes, newNote];
         newNotes.sort((a, b) => {return a.order - b.order});
         setNotes(newNotes);
-        console.log(`note ${newNote.pitch} added`);
+        //console.log(`note ${newNote.pitch} added`);
     }
 
+    // Функция удаления ноты
+    const removeNote = (noteToRemove) => {
+        // Убираем из списка нужную ноту по столбцу и колонке
+        const newNotes = notes.filter(x => {
+            if (x.order === noteToRemove.order && x.pitch === noteToRemove.pitch) {
+                return false;
+            }
+            return true;
+        });
+        setNotes(newNotes);
+        //console.log(notes);
+    }
+
+    // Функция сохранения композиции
     const saveSong = () => {
         var songToSave = {
             author: "Vasya Pupkin",
             notes: notes,
-            cells: cellValues
+            cells: activeTimeline.cells
         };
 
         setSavedSong(songToSave);
-        console.log(savedSong);
+        //console.log(savedSong);
     }
 
+    // Функция загрузки композиции
     const loadSong = () => {
         setNotes(savedSong.notes);
-        setCellValues(savedSong.cells);
+        setActiveTimeline({...activeTimeline, cells: savedSong.cells});
     }
 
-    const updateCellValues = (values) => {
-        setCellValues(values);
-    }
-
-    const removeNote = (noteToRemove) => {
-        // Убираем из списка нужную ноту по столбцу и колонке
-        const newNotes = notes.filter(x => {
-            if (x.order === noteToRemove.order && x.pitch === noteToRemove.pitch)
-            {
-                return false;
+    // Функция обновления ячеек таймлайна
+    const updateCellValues = (TimelineCellValues) => {
+        setActiveTimeline({...activeTimeline, cells: TimelineCellValues});
+        const updatedTimelines = timelines.map(timeline => {
+            if (timeline.id === activeTimeline.id) {
+                return {...timeline, cells: TimelineCellValues};
             }
-            
-            return true;
+            return timeline;
         });
-        setNotes(newNotes);
-        console.log(notes);
+        setTimelines(updatedTimelines);
     }
 
     return (
         <div className="timeline">
-            <ControlButton>
-                Add timeline
-            </ControlButton>
+            <div className="timeline_controlButtons">
+                <ControlButton
+                    handleClick={() => createTimeline({cells: cellsArray, id: Date.now()})}
+                    className="controlButton"
+                >
+                    Add timeline
+                </ControlButton>
+                <ControlButton
+                    handleClick={removeTimeline}
+                    className="controlButton"
+                >
+                    Delete active timeline
+                </ControlButton>
+            </div>
+            
+            
             <TimelineList
-                totalTimelines={timelines.length}
-                timeline={activeTimeline.id}
+                timelines={timelines}
+                activeId={activeTimeline.id}
                 changeTimeline={changeTimeline}
             />
 
-            <Timeline addNote={addNote} removeNote={removeNote} updateCellValues={updateCellValues} />
+            <Timeline
+                octave={octave}
+                cellValues={activeTimeline.cells}
+                addNote={addNote}
+                removeNote={removeNote}
+                updateCellValues={updateCellValues}
+            />
 
-            <div className="timeline_buttons">
-                <ControlButton handleClick={playSong}>
+            <div className="timeline_songButtons">
+                <ControlButton
+                    handleClick={playSong}
+                    className="controlButton"
+                >
                     Play
                 </ControlButton>
-                <ControlButton handleClick={resetSong}>
+                <ControlButton
+                    handleClick={resetSong}
+                    className="controlButton"
+                >
                     Reset
                 </ControlButton>
-                <ControlButton handleClick={saveSong}>
+                <ControlButton
+                    handleClick={saveSong}
+                    className="controlButton"
+                >
                     Save
                 </ControlButton>
-                <ControlButton handleClick={loadSong}>
+                <ControlButton
+                    handleClick={loadSong}
+                    className="controlButton"
+                >
                     Load
                 </ControlButton>
             </div>
