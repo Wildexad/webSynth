@@ -91,8 +91,17 @@ const TimelineController = () => {
     }
 
     const removeNote = (noteToRemove) => {
-        const newNotes = notes.filter(x => x.order !== noteToRemove.order);
+        // Убираем из списка нужную ноту по столбцу и колонке
+        const newNotes = notes.filter(x => {
+            if (x.order === noteToRemove.order && x.pitch === noteToRemove.pitch)
+            {
+                return false;
+            }
+            
+            return true;
+        });
         setNotes(newNotes);
+        console.log(notes);
     }
 
     return (
