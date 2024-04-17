@@ -6,13 +6,14 @@ import "../styles/Timeline.css";
 
 import TimelineColumn from "./TimelineColumn";
 
-const synth = new Tone.Synth().toDestination();  // Создается синтезатор (В будущем будет выбираться извне)
-
 // Компонент Таймлайна
-const Timeline = ({ octave, cellValues, addNote, removeNote, updateCellValues }) => {
+const Timeline = ({ octave, cellValues, addNote, removeNote, updateCellValues, activeSynth }) => {
 
     const handleClick = (column, row) => {
-        let note = { pitch: octave[row], duration: "8n", timing: 0.4, order: column };
+        let note = { pitch: octave[row], duration: "8n", timing: 0.4, order: column, synth: activeSynth };
+        const synth = new Tone.Synth();
+        synth.set(activeSynth);
+        synth.toDestination();
 
         // Добавление ноты в список нот, если она не активна, иначе удаляем
         if (!cellValues[column][row]) {
@@ -33,6 +34,8 @@ const Timeline = ({ octave, cellValues, addNote, removeNote, updateCellValues })
             Tone.start();  // Браузеры блокируют автопроигрывание звука, так что включаем его, если он не включен
         }
         synth.triggerAttackRelease(octave[row], "64n");  // Проигрывание звука
+
+        return activeSynth.color;
     }
 
     return (

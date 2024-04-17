@@ -13,15 +13,18 @@ const Main = () => {
     const defaultSynthList = [
         {
             'name': 'sine',
-            'oscillator': { 'type': 'sine' }
+            'oscillator': { 'type': 'sine' },
+            'color': '#00bfbf'
         },
         {
             'name': 'square',
-            'oscillator': { 'type': 'square' }
+            'oscillator': { 'type': 'square' },
+            'color': '#eb7734'
         },
         {
             'name': 'sawtooth',
-            'oscillator': { 'type': 'sawtooth' }
+            'oscillator': { 'type': 'sawtooth' },
+            'color': '#eb348f'
         }
     ]
 

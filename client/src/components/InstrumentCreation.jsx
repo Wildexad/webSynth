@@ -6,7 +6,8 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
         
         const newSynth = {
             'name': event.target['synthName'].value,
-            'oscillator': { 'type': event.target['synthType'].value }
+            'oscillator': { 'type': event.target['synthType'].value },
+            'color': event.target['synthColor'].value
         };
 
         setSynthList([...synthList, newSynth]);
@@ -24,6 +25,10 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
                 <label>
                     Вид синтезатора:
                     <input type='text' name='synthType' />
+                </label>
+                <label>
+                    Цвет ноты:
+                    <input type='text' name='synthColor' />
                 </label>
 
                 <input type="submit" />

@@ -6,25 +6,6 @@ import "../styles/Timeline.css";
 import Timeline from "./Timeline";
 import ControlButton from './ControlButton';
 import TimelineList from './TimelineList';
-import { setMaxListeners } from 'events';
-
-// Создание разных синтезаторов, доступных по умолчанию
-// const squareSynth = {
-//     'oscillator': { 'type': 'square' }
-// }
-
-// const sineSynth = {
-//     'oscillator': { 'type': 'sine' }
-// }
-
-// const sawtoothSynth = {
-//     'oscillator': { 'type': 'sawtooth' }
-// }
-
-
-// const synth = new Tone.PolySynth(); // Создается главный синтезатор, который будет проигрывать звуки
-// synth.set(sineSynth);
-// synth.toDestination();
 
 
 // Компонент контроллера таймлайнов
@@ -78,16 +59,16 @@ const TimelineController = ({ activeSynth }) => {
 
     // Функция проигрывания мелодии один раз
     const playSongOnce = () => {
-        const synth = new Tone.PolySynth();
-        synth.set(activeSynth);
-        synth.toDestination();  
-        
         let delay = 0;
         if (notes[0]) {
             delay = notes[0].order * 0.4;
         }
 
         for (let i = 0; i < notes.length; i++) {
+            const synth = new Tone.PolySynth();  // Создается новый полифонический синтезатор
+            synth.set(notes[i].synth); // Синтезатору выставляются значения ноты
+            synth.toDestination(); // Ситезатор подключается к выходу
+            
             const now = Tone.now();
             // Добавление места между нотами
             if (notes[i - 1]) {
@@ -189,6 +170,7 @@ const TimelineController = ({ activeSynth }) => {
                 addNote={addNote}
                 removeNote={removeNote}
                 updateCellValues={updateCellValues}
+                activeSynth={activeSynth}
             />
 
             <div className="timeline_songButtons">

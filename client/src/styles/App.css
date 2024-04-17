@@ -54,10 +54,6 @@
   flex-direction: column;
 }
 
-.activeInstrument {
-  background-color: #9ad1d4;
-}
-
 /*
 Стили блока создания своего синтезатора
 */
