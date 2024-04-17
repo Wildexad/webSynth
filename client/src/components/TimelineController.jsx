@@ -9,26 +9,26 @@ import TimelineList from './TimelineList';
 import { setMaxListeners } from 'events';
 
 // Создание разных синтезаторов, доступных по умолчанию
-const squareSynth = {
-    'oscillator': { 'type': 'square' }
-}
+// const squareSynth = {
+//     'oscillator': { 'type': 'square' }
+// }
 
-const sineSynth = {
-    'oscillator': { 'type': 'sine' }
-}
+// const sineSynth = {
+//     'oscillator': { 'type': 'sine' }
+// }
 
-const sawtoothSynth = {
-    'oscillator': { 'type': 'sawtooth' }
-}
+// const sawtoothSynth = {
+//     'oscillator': { 'type': 'sawtooth' }
+// }
 
 
-const synth = new Tone.PolySynth(); // Создается главный синтезатор, который будет проигрывать звуки
-synth.set(sineSynth);
-synth.toDestination();
+// const synth = new Tone.PolySynth(); // Создается главный синтезатор, который будет проигрывать звуки
+// synth.set(sineSynth);
+// synth.toDestination();
 
 
 // Компонент контроллера таймлайнов
-const TimelineController = () => {
+const TimelineController = ({ activeSynth }) => {
     
     // Настройки таймлайнов
     const [octave, setOctave] = useState(['C3', 'C#3', 'D3', 'D#3', 'E3', 'F3', 'F#3', 'G3', 'G#3', 'A3', 'A#3', 'B3']); // Состояние списка нот на таймлайне
@@ -47,7 +47,6 @@ const TimelineController = () => {
     const [savedSong, setSavedSong] = useState([]); // Состояние сохраненной композиции
     
     // Опции музыки
-    const [activeSynth, setActiveSynth] = useState(squareSynth); // Состояние, определяющее используемый на данный момент
     const [isLooped, setIsLooped] = useState(false); // Состояние, определяющее вид проигрывания музыки при нажатии кнопки Play: false - один раз, true - зацикленно
 
 
@@ -79,8 +78,10 @@ const TimelineController = () => {
 
     // Функция проигрывания мелодии один раз
     const playSongOnce = () => {
-        console.log(synth.activeVoices);
-
+        const synth = new Tone.PolySynth();
+        synth.set(activeSynth);
+        synth.toDestination();  
+        
         let delay = 0;
         if (notes[0]) {
             delay = notes[0].order * 0.4;
