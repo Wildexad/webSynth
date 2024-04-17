@@ -9,7 +9,7 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
             'oscillator': { 'type': event.target['synthType'].value }
         };
 
-        setSynthList(...synthList, newSynth);
+        setSynthList([...synthList, newSynth]);
 
         console.log(`Сохранен синтезатор с именем ${event.target['synthName'].value} и типом ${event.target['synthType'].value}`);
     }

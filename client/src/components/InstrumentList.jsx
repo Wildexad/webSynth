@@ -5,7 +5,7 @@ const InstrumentList = ({ setActiveSynth, synthList }) => {
         <>
             <ul>
                 {
-                    synthList.map(synth => <li>
+                    synthList.map(synth => <li key={synth.name}>
                         <button onClick={() => {setActiveSynth(synth)}}>
                             {synth.name}
                         </button>
