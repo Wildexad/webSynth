@@ -6,9 +6,26 @@ import "../styles/Timeline.css";
 import Timeline from "./Timeline";
 import ControlButton from './ControlButton';
 import TimelineList from './TimelineList';
+import { setMaxListeners } from 'events';
 
-const synth = new Tone.PolySynth(); // Создается синтезатор (В будущем будет выбираться извне)
+// Создание разных синтезаторов, доступных по умолчанию
+const squareSynth = {
+    'oscillator': { 'type': 'square' }
+}
+
+const sineSynth = {
+    'oscillator': { 'type': 'sine' }
+}
+
+const sawtoothSynth = {
+    'oscillator': { 'type': 'sawtooth' }
+}
+
+
+const synth = new Tone.PolySynth(); // Создается главный синтезатор, который будет проигрывать звуки
+synth.set(sineSynth);
 synth.toDestination();
+
 
 // Компонент контроллера таймлайнов
 const TimelineController = () => {
@@ -28,6 +45,10 @@ const TimelineController = () => {
     // Ноты и сохраненные композиции
     const [notes, setNotes] = useState([]); // Состояния списка нот для проигрывания композиции
     const [savedSong, setSavedSong] = useState([]); // Состояние сохраненной композиции
+    
+    // Опции музыки
+    const [activeSynth, setActiveSynth] = useState(squareSynth); // Состояние, определяющее используемый на данный момент
+    const [isLooped, setIsLooped] = useState(false); // Состояние, определяющее вид проигрывания музыки при нажатии кнопки Play: false - один раз, true - зацикленно
 
 
 
@@ -56,9 +77,15 @@ const TimelineController = () => {
         }
     }
 
-    // Функция проигрывания мелодии текущего таймлайна
-    const playSong = () => {
+    // Функция проигрывания мелодии один раз
+    const playSongOnce = () => {
+        console.log(synth.activeVoices);
+
         let delay = 0;
+        if (notes[0]) {
+            delay = notes[0].order * 0.4;
+        }
+
         for (let i = 0; i < notes.length; i++) {
             const now = Tone.now();
             // Добавление места между нотами
@@ -68,6 +95,11 @@ const TimelineController = () => {
             synth.triggerAttackRelease(notes[i].pitch, notes[i].duration, now + delay);
             delay += notes[i].timing;
         }
+    }
+
+    // Функция проигрывания мелодии в цикле
+    const playSongOnLoop = () => {
+        console.log('started playing song on loop');
     }
 
     // Функция сброса сохраненной композиции
@@ -160,7 +192,14 @@ const TimelineController = () => {
 
             <div className="timeline_songButtons">
                 <ControlButton
-                    handleClick={playSong}
+                    handleClick={() => {
+                        setIsLooped(!isLooped);
+                    }}
+                >
+                    Loop {isLooped ? '✔' : '✖'}
+                </ControlButton>
+                <ControlButton
+                    handleClick={isLooped ? playSongOnLoop : playSongOnce}
                     className="controlButton"
                 >
                     Play
