@@ -53,3 +53,21 @@
   display: flex;
   flex-direction: column;
 }
+
+.activeInstrument {
+  background-color: #9ad1d4;
+}
+
+/*
+Стили блока создания своего синтезатора
+*/
+.synth-creation {
+  display: flex;
+  flex-direction: column;
+}
+
+.synth-creation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

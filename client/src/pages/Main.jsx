@@ -5,6 +5,7 @@ import "../styles/App.css";
 
 import TimelineController from "../components/TimelineController";
 import InstrumentList from "../components/InstrumentList";
+import InstrumentCreation from "../components/InstrumentCreation";
 
 // Компонент главной страницы
 const Main = () => {
@@ -34,10 +35,14 @@ const Main = () => {
             <div className="synth-options">
                 <div className="instruments">
                     <h2>Инструменты</h2>
-                    <InstrumentList setActiveSynth={setActiveSynth} synthList={synthList} setSynthList={setSynthList} />
+                    <InstrumentList setActiveSynth={setActiveSynth} synthList={synthList} />
                 </div>
-                <div className="synth_settings">
-                    <h2>Настройки синтезатора</h2>
+                <div className="synth-creation">
+                    <h2>Создание синтезатора</h2>
+                    <InstrumentCreation synthList={synthList} setSynthList={setSynthList} />
+                </div>
+                <div className="saved-songs">
+                    <h2>Сохраненные песни</h2>
                 </div>
             </div>
         </main>

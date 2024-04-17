@@ -1,6 +1,6 @@
 import React from "react";
 
-const InstrumentList = ({ setActiveSynth, synthList, setSynthList }) => {
+const InstrumentList = ({ setActiveSynth, synthList }) => {
     return (
         <>
             <ul>
