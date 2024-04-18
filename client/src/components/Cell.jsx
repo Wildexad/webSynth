@@ -13,7 +13,7 @@ const Cell = (props) => {
                 onClick={() => {
                     const newColor = props.onCellClick();
                     
-                    if (color == '#fff')
+                    if (color === '#fff')
                     {
                         setColor(newColor);
                     }

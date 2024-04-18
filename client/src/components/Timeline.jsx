@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import * as Tone from "tone";
 
 import "../styles/Timeline.css";

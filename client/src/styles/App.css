@@ -67,3 +67,31 @@
   flex-direction: column;
   gap: 5px;
 }
+
+.synth-color {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  gap: 5px;
+}
+
+.synth-color-selection {
+  display: flex;
+  gap: 5px;
+}
+
+.synth-color-preview {
+  height: 50px;
+  width: 50px;
+  border: black solid 1px;
+  border-radius: 10%;
+}
+
+.synth-options {
+  display: flex;
+}
+
+.synth-meta {
+  display: flex;
+  flex-direction: column;
+}

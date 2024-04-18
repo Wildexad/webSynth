@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import * as Tone from "tone";
 
 import "../styles/Timeline.css";
@@ -94,7 +94,6 @@ const TimelineController = ({ activeSynth }) => {
         const newNotes = [...notes, newNote];
         newNotes.sort((a, b) => {return a.order - b.order});
         setNotes(newNotes);
-        //console.log(`note ${newNote.pitch} added`);
     }
 
     // Функция удаления ноты
@@ -107,7 +106,6 @@ const TimelineController = ({ activeSynth }) => {
             return true;
         });
         setNotes(newNotes);
-        //console.log(notes);
     }
 
     // Функция сохранения композиции
@@ -119,7 +117,6 @@ const TimelineController = ({ activeSynth }) => {
         };
 
         setSavedSong(songToSave);
-        //console.log(savedSong);
     }
 
     // Функция загрузки композиции
