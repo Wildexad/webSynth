@@ -17,6 +17,21 @@
   padding-bottom: 10px;
 }
 
+.logout_block {
+  display: flex;
+  flex-direction: row;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.profile_block {
+  margin-right: 30px;
+}
+
+.login_error {
+  color: red;
+}
+
 /*
 Стили мейн контента
 */
@@ -36,8 +51,8 @@
 }
 
 .loader {
-  width: 100px;
-  height: 100px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: 5px dashed #9ad1d4;
   animation: rotate 2s infinite linear;

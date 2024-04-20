@@ -6,7 +6,7 @@ import { AuthContext } from './AuthContext';
 import Loader from './components/Loader';
 
 const AppRouter = () => {
-    const {isAuth, isLoading} = useContext(AuthContext);
+    const {user, isLoading} = useContext(AuthContext);
 
     if (isLoading) {
         return <Loader />
@@ -43,7 +43,7 @@ const AppRouter = () => {
     );
     
     return (
-        isAuth
+        user
         ?
         app_private_routes
         :

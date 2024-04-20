@@ -9,17 +9,9 @@ import Header from "./components/Header";
 import AppRouter from "./AppRouter";
 
 const App = () => {
-  const [isAuth, setIsAuth] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem('auth')) {
-      setIsAuth(true);
-    }
-  }, []);
-
 
   return (
-    <AuthContextProvider isAuth={isAuth} setIsAuth={setIsAuth}>
+    <AuthContextProvider>
       <BrowserRouter>
         <div className="app">
           <Header />

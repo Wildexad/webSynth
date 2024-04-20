@@ -7,26 +7,31 @@ export default class UserService {
         return response.data;
     }
 
+    // Работающий метод
     static async Login(login, password) {
         const response = await axios.post('http://localhost:8000/api/user/login',
-            {data: {login: login, password: password}});
-        console.log(response.data);
+            {login: login, password: password});
         return response.data;
     }
 
     static async RefreshToken(uuid) {
         const response = await axios.post('http://localhost:8000/api/user/refresh-token',
-            {data: {uuid: uuid}});
+            {uuid: uuid});
         console.log(response.data);
         return response.data;
     }
     
-    static async Logout() {
-        const response = await axios.get('http://localhost:8000/api/user/logout');
+    // Работающий метод
+    static async Logout(token) {
+        const response = await axios.get('http://localhost:8000/api/user/logout',
+            {headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         return response.data;
     }
 
-    static async UserInfo() {
+    static async UserInfo(uuid) {
         const response = await axios.get('http://localhost:8000/api/user/info');
         return response.data;
     }
