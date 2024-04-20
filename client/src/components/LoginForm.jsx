@@ -5,12 +5,14 @@ import { useFetching } from "../useFetching";
 import UserService from "../UserService";
 
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 // Компонент авторизации
 const LoginForm = () => {
     const {user, setUser} = useContext(AuthContext); // Подтягиваем состояние из контекста
     const [formData, setFormData] = useState({login: '', password: ''}); // Состояние формы логина
-    
+    const navigate = useNavigate(); // Функция редиректа
+
     // Обращение к стороннему апи логина через сервис с помощью обертки
     const [fetchUser, isLoginLoading, loginError] = useFetching(async () => {
         const response = await UserService.Login(formData.login, formData.password);
@@ -20,7 +22,7 @@ const LoginForm = () => {
 
     // ОБращение к стороннему апи логаута через сервис с помощью обертки
     const [fetchLogout, isLogoutLoading, logoutError] = useFetching(async () => {
-        const response = await UserService.Logout(user.token);
+        await UserService.Logout(user.token);
         setUser(null);
         //console.log(user);
     })
@@ -36,18 +38,33 @@ const LoginForm = () => {
     const Logout = async (event) => {
         event.preventDefault();
         fetchLogout();
+        navigate(`/`, {replace: false});
+    }
+
+    // Функция навигации к странице профиля пользователя
+    const transitToProfile = (uid) => {
+        navigate(`/users/${uid}`, {replace: false})
     }
 
     // Представление компонента для авторизованного пользователя
     const authorized_view = (
-        <div className="logout_block">
-            <div className="profile_block">
-                Профиль
+        <>
+            {logoutError && <div className="logout_error">{logoutError}!</div>}
+
+            {isLogoutLoading
+            ?
+            <div className="loader_block"><Loader /></div>
+            :
+            <div className="logout_block">
+                <div onClick={() => transitToProfile(user.uid)} className="profile_block">
+                    Профиль
+                </div>
+                <button onClick={Logout} className="logout_button">
+                    Выйти
+                </button>
             </div>
-            <button onClick={Logout} className="logout_button">
-                Выйти
-            </button>
-        </div>
+            }
+        </>
     );
 
     // Представление компонента для неавторизованного пользователя

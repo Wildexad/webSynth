@@ -5,6 +5,7 @@ import { privateRoutes, publicRoutes } from './routes';
 import { AuthContext } from './AuthContext';
 import Loader from './components/Loader';
 
+// Компонент реализующий роутинг в приложении
 const AppRouter = () => {
     const {user, isLoading} = useContext(AuthContext);
 
@@ -12,6 +13,7 @@ const AppRouter = () => {
         return <Loader />
     }
 
+    // Создание приватных роутов
     const app_private_routes = (
         <main className="app_private">
             <Routes>
@@ -27,6 +29,7 @@ const AppRouter = () => {
         </main>
     );
 
+    // Создание публичных роутов
     const app_public_routes = (
         <main className="app_public">
             <Routes>

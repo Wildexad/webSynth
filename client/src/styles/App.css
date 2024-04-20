@@ -12,6 +12,10 @@
   padding-right: 2%;
 }
 
+.logo {
+  cursor: pointer;
+}
+
 .login_block {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -25,6 +29,7 @@
 }
 
 .profile_block {
+  cursor: pointer;
   margin-right: 30px;
 }
 
