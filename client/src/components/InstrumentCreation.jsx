@@ -9,12 +9,12 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
     const [synthName, setSynthName] = useState(''); // Состояние названия нового синтезатора
     const [synthType, setSynthType] = useState('sine'); // Состояния вида осциллятора нового синтезатора
     const [synthColor, setSynthColor] = useState('#fff'); // Состояние цвета нового синтезатора
-    const [synthEnvelope, setSynthEnvelope] = useState({
-        'attack': 0,
-        'decay': 0,
-        'sustain': 1,
-        'release': 0.7
-    }); // Состояние, определяющее envelope нового синтезатора
+    
+    // Envelope нового синтезатора
+    const [attack, setAttack]= useState(0.0);
+    const [decay, setDecay] = useState(0.0);
+    const [sustain, setSustain] = useState(1.0);
+    const [release, setRelease] = useState(0.7)
 
     // Функция по сохранению нового синтезатора
     const handleSubmit = (event) => {
@@ -24,7 +24,12 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
             'name': synthName,
             'oscillator': { 'type': event.target['synthType'].value },
             'color': synthColor,
-            'envelope': synthEnvelope
+            'envelope': {
+                'attack': attack,
+                'decay': decay,
+                'sustain': sustain,
+                'release': release
+            }
         };
 
         setSynthList([...synthList, newSynth]);
@@ -36,10 +41,19 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
             'name': synthName,
             'oscillator': { 'type': synthType },
             'color': synthColor,
+            'envelope': {
+                'attack': attack,
+                'decay': decay,
+                'sustain': sustain,
+                'release': release
+            }
         };
 
         const synth = new Tone.Synth();
         synth.set(newSynth);
+
+        synth.envelope.set(newSynth.envelope);
+
         synth.toDestination();
 
         synth.triggerAttackRelease('B3', "64n");
@@ -79,11 +93,9 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
                     
                     <div>
                         <label>
-                            Attack: {synthEnvelope.attack}
+                            Attack: {attack}
                             <input type="range" min='0.0' max='2.0' defaultValue='0.0' step='0.1' onChange={(e) => {
-                                const newSynthEnvelope = synthEnvelope;
-                                newSynthEnvelope.attack = e.target.value;
-                                setSynthEnvelope(newSynthEnvelope);
+                                setAttack(e.target.value);
                             }} />
                         </label>
                     </div>
