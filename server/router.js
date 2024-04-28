@@ -8,6 +8,7 @@ const mainRouter = new RouterClass();
 
 // Users
 mainRouter.get('/user/list', Users.getAllUsers);
+mainRouter.post('/user/register', Users.register);
 mainRouter.post('/user/login', Users.login);
 mainRouter.post('/user/refresh-token', Users.refreshToken);
 mainRouter.get('/user/logout', checkAuth, Users.logout);

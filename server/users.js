@@ -28,6 +28,33 @@ exports.getUserById = async (req, res) => {
     }
 }
 
+exports.register = async (req, res) => {
+  if (
+    !req.body.login?.length ||
+    !req.body.password?.length ||
+    !req.body.email?.length ||
+    !req.body.name?.length
+  ) {
+    res.status(400).send('Не полные данные')
+    return
+  }
+  try {
+    let r = await req.db.pool.query(`
+      INSERT INTO users (login, password, email, name)
+      VALUES ($1, $2, $3, $4)
+    `, [
+      req.body.login.trim(),
+      req.body.password.trim(),
+      req.body.email.trim(),
+      req.body.name.trim()
+    ]);
+    res.json({ err: '', status: 'Successful!' })
+    return;
+  } catch(e) {
+    res.status(500).send(e.message)
+  }
+}
+
 exports.login = async (req, res) => {
   if (!req.body.login?.length || !req.body.password?.length) {
     res.status(400).send('Not_founded_login_or_password_on_post_request');
