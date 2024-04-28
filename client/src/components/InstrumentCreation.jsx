@@ -8,9 +8,9 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
     const [synthType, setSynthType] = useState('sine'); // Состояния вида осциллятора нового синтезатора
     const [synthColor, setSynthColor] = useState('#fff'); // Состояние цвета нового синтезатора
 
-    const [noteLength, setNoteLength] = useState('8');
+    const [noteLength, setNoteLength] = useState('8'); // Длительность ноты (пока только для теста)
 
-    // Envelope нового синтезатора
+    // Состояния ADSR-огибающей (envelope) нового синтезатора
     const [attack, setAttack]= useState(0.0);
     const [decay, setDecay] = useState(0.0);
     const [sustain, setSustain] = useState(1.0);
@@ -49,14 +49,14 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
             }
         };
 
-        const synth = new Tone.Synth();
-        synth.set(newSynth);
+        const synth = new Tone.Synth(); // СОздание синтезатора
+        synth.set(newSynth); // Присваивание значений проверяемого синтезатора
 
-        synth.envelope.set(newSynth.envelope);
+        synth.envelope.set(newSynth.envelope); // Добавление значений огибающей
 
-        synth.toDestination();
+        synth.toDestination(); // Подключение синтезатора к выходу
 
-        synth.triggerAttackRelease('B3', noteLength + 'n');
+        synth.triggerAttackRelease('B3', noteLength + 'n'); // Одноократное проигрывание ноты
     }
 
     return (
@@ -66,6 +66,7 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
 
                 <button>Сохранить синтезатор</button>
 
+                {/* Базовые настройки */}
                 <div className="synth-options">
                     <div className="synth-meta">
                         <label>
@@ -74,7 +75,7 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
                         </label>
                         
                         <label>
-                            Вид синтезатора:
+                            Вид осциллятора:
                             <select type='text' name='synthType' onChange={(e) => {setSynthType(e.target.value)}}>
                                 <option value='sine'>Синусоид</option>
                                 <option value='square'>Квадрат</option>
@@ -91,6 +92,7 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
                         </label>
                     </div>
                     
+                    {/* Настройки ADSR-огибающей */}
                     <div className="synth-meta">
                         <label>
                             <p>Attack: {attack}</p>
@@ -118,9 +120,10 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
                         </label>
                     </div>
 
+                    {/* Дополнительные настройки */}
                     <div className="synth-meta">
                         <label>
-                            <p>Длительность: {noteLength + 'n'}</p>
+                            <p>Длительность: {'1/' + noteLength}</p>
                             <input type="range" min='1' max='64' defaultValue='8' step='1' onChange={(e) => {
                                 setNoteLength(e.target.value);
                             }} />
