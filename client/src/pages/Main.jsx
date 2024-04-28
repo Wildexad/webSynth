@@ -14,17 +14,35 @@ const Main = () => {
         {
             'name': 'sine',
             'oscillator': { 'type': 'sine' },
-            'color': '#00bfbf'
+            'color': '#00bfbf',
+            'envelope': {
+                'attack': 0,
+                'decay': 0,
+                'sustain': 1,
+                'release': 0.7
+            }
         },
         {
             'name': 'square',
             'oscillator': { 'type': 'square' },
-            'color': '#eb7734'
+            'color': '#eb7734',
+            'envelope': {
+                'attack': 0,
+                'decay': 0,
+                'sustain': 1,
+                'release': 0.7
+            }
         },
         {
             'name': 'sawtooth',
             'oscillator': { 'type': 'sawtooth' },
-            'color': '#eb348f'
+            'color': '#eb348f',
+            'envelope': {
+                'attack': 0,
+                'decay': 0,
+                'sustain': 1,
+                'release': 0.7
+            }
         }
     ]
 

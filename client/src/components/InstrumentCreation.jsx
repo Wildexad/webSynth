@@ -3,12 +3,19 @@ import { HexColorPicker } from "react-colorful";
 import Slider from '@mui/material/Slider';
 
 import * as Tone from 'tone';
+import InstrumentSlider from "./InstrumentSlider";
 
 const InstrumentCreation = ({ synthList, setSynthList }) => {
     const [synthName, setSynthName] = useState(''); // Состояние названия нового синтезатора
     const [synthType, setSynthType] = useState('sine'); // Состояния вида осциллятора нового синтезатора
     const [synthColor, setSynthColor] = useState('#fff'); // Состояние цвета нового синтезатора
-    
+    const [synthEnvelope, setSynthEnvelope] = useState({
+        'attack': 0,
+        'decay': 0,
+        'sustain': 1,
+        'release': 0.7
+    }); // Состояние, определяющее envelope нового синтезатора
+
     // Функция по сохранению нового синтезатора
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -16,7 +23,8 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
         const newSynth = {
             'name': synthName,
             'oscillator': { 'type': event.target['synthType'].value },
-            'color': synthColor
+            'color': synthColor,
+            'envelope': synthEnvelope
         };
 
         setSynthList([...synthList, newSynth]);
@@ -27,7 +35,7 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
         const newSynth = {
             'name': synthName,
             'oscillator': { 'type': synthType },
-            'color': synthColor
+            'color': synthColor,
         };
 
         const synth = new Tone.Synth();
@@ -53,7 +61,11 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
                         
                         <label>
                             Вид синтезатора:
-                            <input type='text' name='synthType' onChange={(e) => {setSynthType(e.target.value)}} />
+                            <select type='text' name='synthType' onChange={(e) => {setSynthType(e.target.value)}}>
+                                <option value='sine'>Синусоид</option>
+                                <option value='square'>Квадрат</option>
+                                <option value='sawtooth'>Пиловидный</option>
+                            </select>
                         </label>
                         
                         <label className="synth-color">
@@ -67,8 +79,12 @@ const InstrumentCreation = ({ synthList, setSynthList }) => {
                     
                     <div>
                         <label>
-                            Слайдер
-                            <Slider />
+                            Attack: {synthEnvelope.attack}
+                            <input type="range" min='0.0' max='2.0' defaultValue='0.0' step='0.1' onChange={(e) => {
+                                const newSynthEnvelope = synthEnvelope;
+                                newSynthEnvelope.attack = e.target.value;
+                                setSynthEnvelope(newSynthEnvelope);
+                            }} />
                         </label>
                     </div>
                 </div>

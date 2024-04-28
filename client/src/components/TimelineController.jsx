@@ -57,6 +57,17 @@ const TimelineController = ({ activeSynth }) => {
         }
     }
 
+    // Функция создания синтезатора для ноты
+    const updateSynth = (noteIndex) => {
+        const synth = new Tone.Synth();  // Создается новый полифонический синтезатор
+        synth.set(notes[noteIndex].synth); // Синтезатору выставляются значения ноты
+
+        synth.envelope.set(notes[noteIndex].synth.envelope);
+        console.log(notes[noteIndex].synth.envelope);
+
+        return synth;
+    }
+
     // Функция проигрывания мелодии один раз
     const playSongOnce = () => {
         let delay = 0;
@@ -65,9 +76,8 @@ const TimelineController = ({ activeSynth }) => {
         }
 
         for (let i = 0; i < notes.length; i++) {
-            const synth = new Tone.PolySynth();  // Создается новый полифонический синтезатор
-            synth.set(notes[i].synth); // Синтезатору выставляются значения ноты
-            synth.toDestination(); // Ситезатор подключается к выходу
+            const synth = updateSynth(i);
+            synth.toDestination(); // Синтезатор подключается к выходу
             
             const now = Tone.now();
             // Добавление места между нотами

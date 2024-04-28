@@ -10,7 +10,9 @@ const InstrumentList = ({ setActiveSynth, synthList }) => {
                         <button onClick={() => {
                             // Изменение активного синтезатора на выбранный и однократное проирывание примера звука
                             setActiveSynth(synth)
-                                
+                            console.log(synth);
+
+                            // Однократное проигрывание ноты при выборе
                             const tempSynth = new Tone.PolySynth();
                             tempSynth.set(synth);
                             tempSynth.toDestination();
