@@ -38,7 +38,7 @@ const Main = () => {
             'oscillator': { 'type': 'sawtooth' },
             'color': '#eb348f',
             'envelope': {
-                'attack': 1,
+                'attack': 0,
                 'decay': 0,
                 'sustain': 1,
                 'release': 0.7
