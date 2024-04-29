@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { privateRoutes, publicRoutes } from './routes';
@@ -7,11 +7,7 @@ import Loader from './components/Loader';
 
 // Компонент реализующий роутинг в приложении
 const AppRouter = () => {
-    const {user, isLoading} = useContext(AuthContext);
-
-    if (isLoading) {
-        return <Loader />
-    }
+    const {user, setUser} = useContext(AuthContext);
 
     // Создание приватных роутов
     const app_private_routes = (
