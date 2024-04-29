@@ -7,6 +7,12 @@ export default class UserService {
         return response.data;
     }
 
+    static async Register(login, password, email, name) {
+        const response = await axios.post('http://localhost:8000/api/user/register',
+            {login: login, password: password, email: email, name: name});
+        return response;
+    }
+
     // Работающий метод
     static async Login(login, password) {
         const response = await axios.post('http://localhost:8000/api/user/login',
